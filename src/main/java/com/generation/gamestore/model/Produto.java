@@ -1,9 +1,7 @@
 package com.generation.gamestore.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,7 +14,7 @@ import java.time.LocalDateTime;
 public class Produto {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "O atributo nome é obrigatório!")
@@ -30,8 +28,9 @@ public class Produto {
     @NotNull
     private Float preco;
 
-    @UpdateTimestamp
-    private LocalDateTime data;
+    @ManyToOne
+    @JsonIgnoreProperties("produto")
+    private Categoria categoria;
 
     public Long getId() {
         return id;
@@ -65,11 +64,11 @@ public class Produto {
         this.preco = preco;
     }
 
-    public LocalDateTime getData() {
-        return data;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }
